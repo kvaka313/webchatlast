@@ -21,4 +21,7 @@ public class User {
 
     @Column(name="login", nullable = false, unique = true)
     private String login;
+
+    @OneToOne(mappedBy = "user")
+    private Ban ban;
 }

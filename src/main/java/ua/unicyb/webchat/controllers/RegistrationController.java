@@ -7,18 +7,17 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ua.unicyb.webchat.convertors.UserConvertor;
 import ua.unicyb.webchat.dto.RegistrationDto;
 import ua.unicyb.webchat.dto.RegistrationResponseDto;
 import ua.unicyb.webchat.exceptions.KafkaSendException;
 import ua.unicyb.webchat.message.MessageProvider;
-import ua.unicyb.webchat.services.RegistrationService;
+import ua.unicyb.webchat.services.UserService;
 
 @RestController
 @AllArgsConstructor
 public class RegistrationController {
 
-    private RegistrationService registrationService;
+    private UserService userService;
 
     private MessageProvider messageProvider;
 
@@ -26,7 +25,7 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public RegistrationResponseDto registration(@Valid @RequestBody RegistrationDto registrationDto) {
-        RegistrationResponseDto registrationResponseDto =  registrationService.registration(registrationDto);
+        RegistrationResponseDto registrationResponseDto =  userService.registration(registrationDto);
         try {
             if (registrationResponseDto.getErrorMessage() == null) {
                 messageProvider.sendUserToAuthProvider(mapper.writeValueAsString(registrationDto));

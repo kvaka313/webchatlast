@@ -11,7 +11,7 @@ import ua.unicyb.webchat.repositories.UserRepository;
 
 @Service
 @AllArgsConstructor
-public class RegistrationService {
+public class UserService {
 
     private UserRepository userRepository;
 
@@ -32,5 +32,9 @@ public class RegistrationService {
         User savedUser = userRepository.save(user);
 
         return userConvertor.convertFromUserToRegistrationResponse(savedUser);
+    }
+
+    public User findUserByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
 }
